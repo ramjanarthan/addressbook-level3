@@ -24,13 +24,6 @@ import seedu.addressbook.data.tag.UniqueTagList;
  */
 public class AdaptedPerson {
 
-    private static class AdaptedContactDetail {
-        @XmlValue
-        public String value;
-        @XmlAttribute(required = true)
-        public boolean isPrivate;
-    }
-
     @XmlElement(required = true)
     private String name;
     @XmlElement(required = true)
@@ -45,6 +38,12 @@ public class AdaptedPerson {
     @XmlElement
     private List<AdaptedTag> tagged = new ArrayList<>();
 
+    private static class AdaptedContactDetail {
+        @XmlValue
+        public String value;
+        @XmlAttribute(required = true)
+        public boolean isPrivate;
+    }
     /**
      * No-arg constructor for JAXB use.
      */
