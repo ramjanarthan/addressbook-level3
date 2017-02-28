@@ -36,8 +36,8 @@ public class CommandHistory {
 	
 	
 	/**
-	 * Method that returns the command at the top of the stack
-	 * Returns null if stack is empty
+	 * Method that returns the previous command entered by user
+	 * Returns null if history is empty
 	 */
 	public static String GetPreviousCommand(){
 		if(history.isEmpty()){
@@ -48,8 +48,12 @@ public class CommandHistory {
 		}
 	}
 	
+	/**
+	 * Method that returns the next command entered by the user, if it exists
+	 * Returns null if overflow is empty
+	 */
 	public static String GetNextCommand(){
-		if(overflow.empty()){
+		if(overflow.isEmpty()){
 			if(current != null){
 				history.add(current);
 			}
@@ -58,6 +62,18 @@ public class CommandHistory {
 			history.add(current);
 			current = overflow.pop();
 			return current;
+		}
+	}
+	
+	public static void Restore(){
+		if(current == null){
+			;
+		}else {
+			history.push(current);
+			while(!overflow.isEmpty()){
+				history.push(overflow.pop());
+			}
+			current = null;
 		}
 	}
 	
