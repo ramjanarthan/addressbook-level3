@@ -2,6 +2,7 @@ package seedu.addressbook.parser;
 
 import seedu.addressbook.commands.*;
 import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.tag.Tag;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -71,6 +72,9 @@ public class Parser {
 
             case ListCommand.COMMAND_WORD:
                 return new ListCommand();
+                
+            case ListByTagCommand.COMMAND_WORD:
+            	return prepareListByTag(arguments);
 
             case ViewCommand.COMMAND_WORD:
                 return prepareView(arguments);
@@ -159,6 +163,19 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses arguments in the context of the list_by_tag command.
+     */
+    private Command prepareListByTag(String args) {
+    	try {
+    		final Tag tag = new Tag(args);
+    		return new ListByTagCommand(tag);
+    	} catch (NumberFormatException | IllegalValueException exception) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    ViewCommand.MESSAGE_USAGE));
+        }
+    }
+    
     /**
      * Parses arguments in the context of the view command.
      *
