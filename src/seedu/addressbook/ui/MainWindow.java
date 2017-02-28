@@ -9,6 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.logic.Logic;
+import seedu.addressbook.commands.CommandHistory;
 import seedu.addressbook.commands.CommandResult;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 
@@ -48,6 +49,10 @@ public class MainWindow {
 	    if (event.getCode() == KeyCode.ENTER) {
 	    	try {
 	            String userCommandText = commandInput.getText();
+	            CommandHistory.Restore();
+	            if(!CommandHistory.AddCommandToStack(userCommandText)){
+	            	throw new ArrayIndexOutOfBoundsException();
+	            }
 	            CommandResult result = logic.execute(userCommandText);
 	            if(isExitCommand(result)){
 	                exitApp();
@@ -59,8 +64,22 @@ public class MainWindow {
 	            display(e.getMessage());
 	            throw new RuntimeException(e);
 	        }
+	    }else if(event.getCode() == KeyCode.UP){
+	    	String userCommandText = CommandHistory.GetPreviousCommand();
+	    	if(userCommandText == null){
+	    		setCommandInput("");
+	    	}else {
+	    		setCommandInput(userCommandText);
+	    	}
+	    }else if(event.getCode() == KeyCode.DOWN){
+	    	String userCommandText = CommandHistory.GetNextCommand();
+	    	if(userCommandText == null){
+	    		setCommandInput("");
+	    	}else {
+	    		setCommandInput(userCommandText);
+	    	}
 	    }else {
-	    	System.out.println(event.getCode());
+	    	
 	    }
 	    	
 	}
@@ -92,6 +111,11 @@ public class MainWindow {
     /** Returns true of the result given is the result of an exit command */
     private boolean isExitCommand(CommandResult result) {
         return result.feedbackToUser.equals(ExitCommand.MESSAGE_EXIT_ACKNOWEDGEMENT);
+    }
+    
+    /** Sets the command input box 'input' as the given parameter */
+    public void setCommandInput(String result) {
+        commandInput.setText(result);
     }
 
     /** Clears the command input box */
