@@ -1,6 +1,9 @@
 package seedu.addressbook.parser;
 
 import static seedu.addressbook.common.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+import seedu.addressbook.commands.*;
+import seedu.addressbook.data.exception.IllegalValueException;
+import seedu.addressbook.data.tag.Tag;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -87,6 +90,9 @@ public class Parser {
 
             case ListCommand.COMMAND_WORD:
                 return new ListCommand();
+                
+            case ListByTagCommand.COMMAND_WORD:
+            	return prepareListByTag(arguments);
 
             case ViewCommand.COMMAND_WORD:
                 return prepareView(arguments);
@@ -96,6 +102,9 @@ public class Parser {
 
             case ExitCommand.COMMAND_WORD:
                 return new ExitCommand();
+                
+            case ListTagsCommand.COMMAND_WORD:
+            	return new ListTagsCommand();
 
             case HelpCommand.COMMAND_WORD: // Fallthrough
             default:
@@ -178,6 +187,19 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses arguments in the context of the list_by_tag command.
+     */
+    private Command prepareListByTag(String args) {
+    	try {
+    		final Tag tag = new Tag(args);
+    		return new ListByTagCommand(tag);
+    	} catch (NumberFormatException | IllegalValueException exception) {
+            return new IncorrectCommand(String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                    ViewCommand.MESSAGE_USAGE));
+        }
+    }
+    
     /**
      * Parses arguments in the context of the view command.
      *
