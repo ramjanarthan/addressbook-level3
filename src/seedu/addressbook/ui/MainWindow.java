@@ -5,11 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.logic.Logic;
 import seedu.addressbook.commands.CommandResult;
 import seedu.addressbook.data.person.ReadOnlyPerson;
 
+import java.io.Console;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,8 +43,31 @@ public class MainWindow {
     @FXML
     private TextField commandInput;
 
-
     @FXML
+    public void handleKeyPressed(KeyEvent event){
+	    if (event.getCode() == KeyCode.ENTER) {
+	    	try {
+	            String userCommandText = commandInput.getText();
+	            CommandResult result = logic.execute(userCommandText);
+	            if(isExitCommand(result)){
+	                exitApp();
+	                return;
+	            }
+	            displayResult(result);
+	            clearCommandInput();
+	        } catch (Exception e) {
+	            display(e.getMessage());
+	            throw new RuntimeException(e);
+	        }
+	    }else {
+	    	System.out.println(event.getCode());
+	    }
+	    	
+	}
+    
+    
+    
+/*    @FXML
     void onCommand(ActionEvent event) {
         try {
             String userCommandText = commandInput.getText();
@@ -58,6 +84,7 @@ public class MainWindow {
         }
     }
 
+*/
     private void exitApp() throws Exception {
         mainApp.stop();
     }
