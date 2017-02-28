@@ -11,17 +11,17 @@ import java.util.Stack;
 public class CommandHistory {
 	
 	/**
-	 * history is the main stack that contains the commands entered
+	 * history is the main stack that contains the commands (as strings) entered
 	 * overflow acts as a buffer, when history is popped off but needs to be refilled
 	 * current is the command viewed by the user
 	 */
-	private static Stack<Command> history;
-	private static Stack<Command> overflow;
-	private static Command current;
+	private static Stack<String> history;
+	private static Stack<String> overflow;
+	private static String current;
 	
 	public CommandHistory(){
-		history = new Stack<Command>();
-		overflow = new Stack<Command>();
+		history = new Stack<String>();
+		overflow = new Stack<String>();
 		current = null;
 	}	
 	
@@ -30,7 +30,7 @@ public class CommandHistory {
 	 * @param command
 	 * Returns a boolean if successful
 	 */
-	public boolean AddCommandToStack(Command command){
+	public static boolean AddCommandToStack(String command){
 		return history.add(command);
 	}
 	
@@ -39,7 +39,7 @@ public class CommandHistory {
 	 * Method that returns the command at the top of the stack
 	 * Returns null if stack is empty
 	 */
-	public Command GetPreviousCommand(){
+	public static String GetPreviousCommand(){
 		if(history.isEmpty()){
 			return null;
 		}else {
@@ -48,7 +48,7 @@ public class CommandHistory {
 		}
 	}
 	
-	public Command GetNextCommand(){
+	public static String GetNextCommand(){
 		if(overflow.empty()){
 			if(current != null){
 				history.add(current);
