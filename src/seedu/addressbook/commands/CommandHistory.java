@@ -41,8 +41,11 @@ public class CommandHistory {
 	 */
 	public static String GetPreviousCommand(){
 		if(history.isEmpty()){
-			return null;
+			return current;
 		}else {
+			if(current != null){
+				overflow.push(current);
+			}
 			current = history.pop();
 			return current;			
 		}
@@ -57,7 +60,8 @@ public class CommandHistory {
 			if(current != null){
 				history.add(current);
 			}
-			return null;
+			current = null;
+			return current;
 		}else {
 			history.add(current);
 			current = overflow.pop();
