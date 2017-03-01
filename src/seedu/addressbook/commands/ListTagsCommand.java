@@ -6,7 +6,7 @@ import seedu.addressbook.data.tag.*;
 
 
 public class ListTagsCommand extends Command {
-	public static final String COMMAND_WORD = "List_tags";
+	public static final String COMMAND_WORD = "list_tags";
 	public static final String MESSAGE_USAGE = COMMAND_WORD + ":\n" + 
 			"list all the tags." + 
 			"\n\tExample: " + COMMAND_WORD;
