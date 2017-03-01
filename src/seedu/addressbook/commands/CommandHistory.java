@@ -24,7 +24,8 @@ public class CommandHistory {
 		overflow = new Stack<String>();
 		current = null;
 	}	
-	
+
+	//Test 
 	/**
 	 * Method that pushes new command onto the top of the stack
 	 * @param command
