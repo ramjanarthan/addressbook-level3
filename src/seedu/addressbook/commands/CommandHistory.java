@@ -15,11 +15,11 @@ public class CommandHistory {
 	 * overflow acts as a buffer, when history is popped off but needs to be refilled
 	 * current is the command viewed by the user
 	 */
-	private static Stack<String> history;
-	private static Stack<String> overflow;
-	private static String current;
+	private static Stack<String> history = new Stack<String>();
+	private static Stack<String> overflow = new Stack<String>();
+	private static String current = null;
 	
-	public CommandHistory(){
+	public CommandHistory() {
 		history = new Stack<String>();
 		overflow = new Stack<String>();
 		current = null;
@@ -30,7 +30,7 @@ public class CommandHistory {
 	 * @param command
 	 * Returns a boolean if successful
 	 */
-	public static boolean AddCommandToStack(String command){
+	public static boolean addCommandHistory(String command) {
 		return history.add(command);
 	}
 	
@@ -39,11 +39,11 @@ public class CommandHistory {
 	 * Method that returns the previous command entered by user
 	 * Returns null if history is empty
 	 */
-	public static String GetPreviousCommand(){
-		if(history.isEmpty()){
+	public static String getPreviousCommand() {
+		if (history.isEmpty()) {
 			return current;
-		}else {
-			if(current != null){
+		} else {
+			if (current != null) {
 				overflow.push(current);
 			}
 			current = history.pop();
@@ -55,26 +55,24 @@ public class CommandHistory {
 	 * Method that returns the next command entered by the user, if it exists
 	 * Returns null if overflow is empty
 	 */
-	public static String GetNextCommand(){
-		if(overflow.isEmpty()){
-			if(current != null){
+	public static String getNextCommand() {
+		if (overflow.isEmpty()) {
+			if (current != null) {
 				history.add(current);
 			}
 			current = null;
 			return current;
-		}else {
+		} else {
 			history.add(current);
 			current = overflow.pop();
 			return current;
 		}
 	}
 	
-	public static void Restore(){
-		if(current == null){
-			;
-		}else {
+	public static void restore() {
+		if (current != null) {
 			history.push(current);
-			while(!overflow.isEmpty()){
+			while (!overflow.isEmpty()) {
 				history.push(overflow.pop());
 			}
 			current = null;
